@@ -1,0 +1,17 @@
+#!/bin/bash
+readonly RED="\e[31m"
+readonly YELLOW="\e[33m"
+readonly GREEN="\e[32m"
+readonly STD="\e[0m"
+
+if [ $# -lt 2 ]
+  then
+    echo -e "${RED}Error! Too few arguments supplied!${STD}"
+    echo -e "${STD}Command: docker-run <customer> <db>"
+    exit 1
+fi
+
+CUSTOMER=$1
+DB=$2
+
+docker run -ti --volumes-from $CUSTOMER.data -v /jamoshared/backup:/backup --rm --env DBNAME=$DB jamotion/odoo-backup &> /jamoshared/backup/$CUSTOMER.log
