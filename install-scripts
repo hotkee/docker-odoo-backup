@@ -1,0 +1,21 @@
+#!/bin/bash
+DIR="$PWD"
+readonly RED="\e[31m"
+readonly YELLOW="\e[33m"
+readonly GREEN="\e[32m"
+readonly STD="\e[0m"
+
+CMDS="jd-backup"
+
+for CMD in $CMDS
+  do
+    echo -e "${YELLOW}Installing ${CMD}...${STD}"
+    if [ -f /usr/local/bin/${CMD} ] || [ -L /usr/local/bin/${CMD} ]
+      then
+        echo -e "${YELLOW}-> Removing old file or link..."
+        rm /usr/local/bin/${CMD}
+    fi
+    echo -e "${YELLOW}-> Adding link..."
+    ln -s ${DIR}/${CMD} /usr/local/bin/${CMD}
+    echo -e "${GREEN}${CMD} installed${STD}"
+done
